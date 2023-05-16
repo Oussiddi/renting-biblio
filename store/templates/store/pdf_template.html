@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        hr {
+            color: rgb(0, 0, 0);
+        }
+
+        .div1 {
+            position: absolute;
+            bottom: 0;
+            padding-bottom: 25px;
+            
+
+        }
+
+        
+
+        table {
+            border-collapse: collapse;
+            align-items: center;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid black;
+
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <h2>Invoice </h2>
+        <h3>Order : {{id}}   </h3>
+        <hr>
+    </div>
+    <div>
+        <H4>Billed To:</H4>
+        <p>First Name :{{first_name}} </p>
+        <p>Last Name :{{last_name}}</p>
+        <p>Adress :{{address}}</p>
+        <p>City :{{city}}</p>
+    </div>
+    <center>
+        <table>
+            <tr>
+                <th>BOOK</th>
+                <th>SKU</th>
+                <th>RENT DATE</th>
+                <th>DUE DATE</th>
+                <th>PRICE</th>
+                
+            </tr>
+            {%for copy, price, date in books_prices_due_date %}
+            <tr>
+                <td>     {{copy.book.title}}      </td>
+                <td>      {{copy.sku}}       </td>
+                <td>        {{creation_date}}     </td>
+                <td>        {{date}}              </td>
+                <td>        ${{price}}             </td>
+                
+            </tr>
+            {%endfor%}
+            
+           
+        </table>
+    </center>
+    <div class="div1">
+        <p ><strong>Total Price :  ${{total_price}}</strong></p>
+    </div>
+</body>
+</html>

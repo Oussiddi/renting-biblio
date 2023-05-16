@@ -1,0 +1,79 @@
+{% extends 'core/base.html'%}
+
+{% block title%}
+    {{book.title}}
+{%endblock%}
+
+{%block content%}
+
+
+
+<div class="w-3/5 mx-20 py-12">
+
+    
+  <nav class="flex" aria-label="Breadcrumb">
+      <ol class="inline-flex items-center space-x-1 md:space-x-3">
+        <li class="inline-flex items-center">
+          <a href="{% url 'frontpage'%}" class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white">
+            <svg aria-hidden="true" class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path></svg>
+            Home
+          </a>
+        </li>
+        <li>
+          <div class="flex items-center">
+            <svg aria-hidden="true" class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
+            <a href="{% url 'books'%}" class="ml-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ml-2 dark:text-gray-400 dark:hover:text-white">Books</a>
+          </div>
+        </li>
+        <li>
+          <div class="flex items-center">
+            <svg aria-hidden="true" class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
+            <a href="{% url 'book_detail' book.slug%}" class="ml-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ml-2 dark:text-gray-400 dark:hover:text-white">{{book.title}}</a>
+          </div>
+        </li>
+      
+      </ol>
+    </nav>
+    
+  </div>
+
+
+
+{%if book.status == 'off loan' %}
+    <div class="mx-10 p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
+      <span class="font-medium">Sorry! This book is not available for renting right now.</span> 
+    </div> 
+{%endif%}   
+
+
+<div class="h-screen">
+  <div class="flex bg-gray-200 mx-10 my-10">
+    <img class="w-64 h-auto object-cover flex-shrink-0 rounded-lg" src="{{ book.image.url }}" alt="Image of {{ book.title }}">
+    <div class="flex-grow p-6">
+      <h1 class="text-2xl font-bold">{{ book.title }}</h1>
+      <p class="text-sm text-gray-500 my-3" >{{ book.author }} - <span class="text-lime-600 font-semibold"> ${{ book.price }} <span class="text-sm text-gray-500 my-3"> / Day</span></p>
+      
+      <hr class="border-2 border-red-600 my-4">
+
+      <p><b>Status :</b> {%if book.status == 'off loan' %}<strong class="text-red-500		">{{ book.get_status_display }}</strong> / <a class="hover:underline" href="{%url 'consultation'%}">On-Site Consultation Only</a>
+                <p class="mt-4"><strong>Description :</strong><br><p class="my-3">{{ book.description }}</p></p>
+                 {%else%}<strong class="text-lime-600	">{{ book.get_status_display }}</strong></p>
+                 <p class="mt-4"><strong>Description :</strong><br><p class="my-3">{{ book.description }}</p></p>
+                 <form method="POST" action="{% url 'add_to_cart' book.id %}">
+                  {% csrf_token %}
+                 <b> Number of days : </b> <input class= "border-2 border-red-600 rounded-lg ml-4" type="number" name="rental_duration" placeholder="Enter a number..." required>
+
+                  
+                  <button type="submit" class=" ml-8 inline-block text-white bg-red-600	 hover:bg-red-700  font-medium rounded-lg text-sm px-5 py-3 text-center"  >Rent</button>
+                </form>
+                 {%endif%}        
+
+
+                 
+    </div>
+  </div>
+</div>
+      
+
+
+{%endblock%}

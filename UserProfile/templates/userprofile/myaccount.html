@@ -1,0 +1,28 @@
+{% extends 'core/base.html'%}
+
+{% block title%}
+My account
+{%endblock%}
+
+
+
+
+
+
+
+{% block content %}
+
+  
+
+
+
+  <div class="w-4/5 min-h-screen mx-auto p-4">
+    <div class="p-4 mb-4 text-sm text-blue-800 rounded-lg bg-blue-100 dark:bg-gray-800 dark:text-blue-400" role="alert">
+      Welcome to your account, <span class="font-medium">{{ user.username }}!</span> 
+    </div>
+    
+    <a href="{% url 'logout'%}" class="rounded-lg mt-6 inline-block py-4 px-8 bg-red-600 	 hover:bg-red-700 text-white">Log out</a>
+  </div>
+  
+
+{%endblock%}
